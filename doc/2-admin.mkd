@@ -78,14 +78,22 @@ for the special usernames or remove the description line.
 
 #### custom hooks
 
-If you want to put in your own, custom, hooks every time a new repo is created
-by gitolite, put a **tested** hook script in `src/hooks`.  As distributed, the
-only file there is the `update` hook, but everything (*everything*) in that
-directory will get copied to the `hooks/` subdirectory of every *new* repo
-created.
+If you want to put in your own, custom, hooks to all the repositories managed
+by gitolite, put a **tested** hook script in `src/hooks`.  Once you have the
+hooks in place, run easy install once again; it'll update all the existing
+repos and automatically add the hook to all repos created in the future.
+As distributed, the only file there is the `update` hook, but everything
+(*everything*) in that directory will get copied to the `hooks/` subdirectory
+of every repo.
 
-In order to push a new or updated hook script to *existing* repos as well,
-just run easy install once again; it'll do it to existing repos also.
+It is currently not possible to add a hook only to some of the repositories,
+but it is possible to control a hook via custom git config options set on a
+per-repo basis (see below and `conf/example.conf` for details).
+
+Removal of custom hooks is not possible in an automated way, because that
+would mean overwriting any and all hooks if easy install is called from a
+fresh gitolite clone or when a hook wasn't added via gitolite. As a workaround,
+you can use empty hooks that don't do anything.
 
 **VERY IMPORTANT SECURITY NOTE:  the `update` hook in `src/hooks` is what
 implements all the branch-level permissions in gitolite.  If you fiddle with
